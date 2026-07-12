@@ -1,0 +1,25 @@
+# Global environment variables
+environment: production
+
+# Backend configuration parameters
+backend:
+  replicaCount: 2
+  image:
+    repository: sentinel-backend
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 8085
+
+# Frontend configuration parameters
+frontend:
+  replicaCount: 1
+  image:
+    repository: sentinel-frontend
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: NodePort
+    port: 3001
+    nodePort: 32001
