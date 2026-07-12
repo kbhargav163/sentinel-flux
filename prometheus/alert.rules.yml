@@ -1,0 +1,22 @@
+groups:
+  - name: sentinel_core_rules
+    rules:
+      # Alert 1: Fire if the application error rate exceeds our budget threshold
+      - alert: HighHttpErrorRate
+        expr: sum(rate(http_server_requests_seconds_count{status="500"}[1m])) > 0.1
+        for: 5s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Sentinel-Core API Failure Spike Detected"
+          description: "HTTP 500 errors on instance {{ $labels.instance }} have crossed the 0.1/sec threshold."
+
+      # Alert 2: Fire if the backend engine target goes completely offline
+      - alert: ApplicationDown
+        expr: up{job="sentinel-flux-backend"} == 0
+        for: 10s
+        labels:
+          severity: page
+        annotations:
+          summary: "Sentinel-Core Pod Offline"
+          description: "Prometheus cannot scrape the target instance {{ $labels.instance }}."

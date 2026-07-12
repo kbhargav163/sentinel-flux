@@ -1,5 +1,9 @@
 global:
-  scrape_interval: 2s # Accelerated interval to make alerts fire fast
+  scrape_interval: 2s
+  evaluation_interval: 2s # Tells Prometheus to check alert rules every 2 seconds
+
+rule_files:
+  - "alert.rules.yml" # Accelerated interval to make alerts fire fast
 
 scrape_configs:
   - job_name: "sentinel-flux-backend"
